@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>剪刀石頭布遊戲</title>
+    <style>
+        /* 原有的CSS樣式保持不變 */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(to right, #84fab0, #8fd3f4); /* 漸變背景 */
+            font-family: 'Arial', sans-serif; /* 現代字體 */
+        }
+        h1 {
+            color: #333; /* 深色標題 */
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7); /* 標題陰影 */
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+        button {
+            width: 100px; /* 設置按鈕寬度 */
+            height: 100px; /* 設置按鈕高度 */
+            margin: 10px;
+            font-size: 16px; /* 調整字體大小以適應按鈕大小 */
+            cursor: pointer;
+            border: none; /* 移除默認邊框 */
+            border-radius: 50%; /* 圓形按鈕 */
+            background-color: #fff; /* 白色背景 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 陰影效果 */
+            transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button:hover {
+            transform: translateY(-2px); /* 向上移動 */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 加強陰影 */
+        }
+        #rock:hover {
+            background-color: #f44336; /* 紅色 */
+        }
+        #paper:hover {
+            background-color: #2196F3; /* 藍色 */
+        }
+        #scissors:hover {
+            background-color: #4CAF50; /* 綠色 */
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 陰影 */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>剪刀石頭布</h1>
+    <div class="button-container">
+        <button id="rock">石頭</button>
+        <button id="paper">布</button>
+        <button id="scissors">剪刀</button>
+    </div>
+    <div id="result"></div>
+
+    <script>
+        let choices = ["rock", "paper", "scissors"];
+        
+        function getComputerChoice() {
+            let randomIndex = Math.floor(Math.random() * choices.length);
+            return choices[randomIndex];
+        }
+
+        function determineWinner(playerChoice, computerChoice) {
+            if (playerChoice === computerChoice) {
+                return "平局！";
+            } else if (
+                (playerChoice === "rock" && computerChoice === "scissors") ||
+                (playerChoice === "paper" && computerChoice === "rock") ||
+                (playerChoice === "scissors" && computerChoice === "paper")
+            ) {
+                return "你贏了！";
+            } else {
+                return "你輸了！";
+            }
+        }
+
+        function setResultColor(result) {
+            let resultDiv = document.getElementById('result');
+            if (result === "平局！") {
+                resultDiv.style.color = "gray";
+            } else if (result === "你贏了！") {
+                resultDiv.style.color = "green";
+            } else {
+                resultDiv.style.color = "red";
+            }
+        }
+
+        function displayResult(playerChoice, computerChoice, result) {
+            let resultText = `你選擇了 ${playerChoice}！電腦選擇了 ${computerChoice}。${result}`;
+            document.getElementById('result').innerText = resultText;
+            setResultColor(result);
+        }
+
+        document.getElementById('rock').onclick = function() {
+            let playerChoice = "rock";
+            let computerChoice = getComputerChoice();
+            let result = determineWinner(playerChoice, computerChoice);
+            displayResult("石頭 (rock)", computerChoice === "rock" ? "石頭 (rock)" : computerChoice === "paper" ? "布 (paper)" : "剪刀 (scissors)", result);
+        };
+
+        document.getElementById('paper').onclick = function() {
+            let playerChoice = "paper";
+            let computerChoice = getComputerChoice();
+            let result = determineWinner(playerChoice, computerChoice);
+            displayResult("布 (paper)", computerChoice === "rock" ? "石頭 (rock)" : computerChoice === "paper" ? "布 (paper)" : "剪刀 (scissors)", result);
+        };
+
+        document.getElementById('scissors').onclick = function() {
+            let playerChoice = "scissors";
+            let computerChoice = getComputerChoice();
+            let result = determineWinner(playerChoice, computerChoice);
+            displayResult("剪刀 (scissors)", computerChoice === "rock" ? "石頭 (rock)" : computerChoice === "paper" ? "布 (paper)" : "剪刀 (scissors)", result);
+        };
+    </script>
+
+</body>
+</html>
